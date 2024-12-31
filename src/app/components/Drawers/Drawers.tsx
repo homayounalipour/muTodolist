@@ -9,39 +9,9 @@ import {
   FormGroup,
   TextField,
 } from "@mui/material";
-import { autoCompleteFields, fields } from "@/app/components/Data";
+import { autoCompleteFields, fields } from "../../utils/Data";
 import { ErrorProps } from "@/app/page";
-
-export type DrawerProps = {
-  open?: boolean;
-  onClose?: () => void;
-  formValues: {
-    name: string;
-    age: string;
-  };
-  updateField: (field: string, value: string) => void;
-  favoriteGenres: { value: string; title: string }[];
-  setFavoriteGenres: React.Dispatch<
-    React.SetStateAction<{ value: string; title: string }[]>
-  >;
-  selectedCountry: { value: string; title: string } | null;
-  setSelectedCountry: React.Dispatch<
-    React.SetStateAction<{ value: string; title: string } | null>
-  >;
-  titleButton: string;
-  addBnClick: () => void;
-  error: ErrorProps;
-  clearError: (filed: string) => void;
-  isTryCatch: boolean;
-  setIsTryCatch: React.Dispatch<React.SetStateAction<boolean>>;
-};
-export enum FieldNames {
-  FavoriteGenres = "favoriteGenres",
-  Country = "country",
-  IsTryCatch = "IsTryCatch",
-  name = "name",
-  age = "age",
-}
+import { DrawerProps, FieldNames } from "./Drawers.types";
 
 export const Drawers: React.FC<DrawerProps> = (props) => {
   const {
@@ -59,33 +29,48 @@ export const Drawers: React.FC<DrawerProps> = (props) => {
     clearError,
     isTryCatch,
     setIsTryCatch,
+    disabled,
   } = props;
 
   const handleFavoriteGenresChange = useCallback(
     (value: { value: string; title: string }[]) => {
-      setFavoriteGenres(value);
-      clearError(FieldNames.FavoriteGenres);
+      if (setFavoriteGenres) {
+        setFavoriteGenres(value);
+      }
+      if (clearError) {
+        clearError(FieldNames.FavoriteGenres);
+      }
     },
     [setFavoriteGenres, clearError],
   );
 
   const handleCountryChange = useCallback(
     (value: { value: string; title: string } | null) => {
-      setSelectedCountry(value);
-      clearError(FieldNames.Country);
+      if (setSelectedCountry) {
+        setSelectedCountry(value);
+      }
+      if (clearError) {
+        clearError(FieldNames.Country);
+      }
     },
     [setSelectedCountry, clearError],
   );
 
   const handleFieldChange = useCallback(
     (field: string, value: string) => {
-      updateField(field, value);
-      clearError(field);
+      if (updateField) {
+        updateField(field, value);
+      }
+      if (clearError) {
+        clearError(field);
+      }
     },
     [updateField, clearError],
   );
   const handleIsTryCatch = useCallback((value: boolean) => {
-    setIsTryCatch(value);
+    if (setIsTryCatch) {
+      setIsTryCatch(value);
+    }
   }, []);
 
   const DrawerDetail = (
@@ -103,6 +88,7 @@ export const Drawers: React.FC<DrawerProps> = (props) => {
           onChange={(e) => handleFieldChange(filed.name, e.target.value)}
           error={!!error[filed.name as keyof ErrorProps]}
           helperText={error[filed.name as keyof ErrorProps]}
+          disabled={disabled}
         />
       ))}
 
@@ -116,6 +102,7 @@ export const Drawers: React.FC<DrawerProps> = (props) => {
                 getOptionLabel={(option) => option.title}
                 value={favoriteGenres}
                 onChange={(e, value) => handleFavoriteGenresChange(value || [])}
+                disabled={disabled}
                 renderInput={(params) => (
                   <TextField
                     {...params}
@@ -139,6 +126,7 @@ export const Drawers: React.FC<DrawerProps> = (props) => {
                 getOptionLabel={(option) => option.title}
                 value={selectedCountry}
                 onChange={(e, value) => handleCountryChange(value || null)}
+                disabled={disabled}
                 renderInput={(params) => (
                   <TextField
                     {...params}
@@ -146,6 +134,7 @@ export const Drawers: React.FC<DrawerProps> = (props) => {
                     variant="outlined"
                     error={!!error[FieldNames.Country]}
                     helperText={error[FieldNames.Country]}
+                    disabled={disabled}
                   />
                 )}
               />
@@ -161,6 +150,7 @@ export const Drawers: React.FC<DrawerProps> = (props) => {
               <Checkbox
                 checked={isTryCatch}
                 onChange={(e) => handleIsTryCatch(e.target.checked)}
+                disabled={disabled}
               />
             }
             label={FieldNames.IsTryCatch}

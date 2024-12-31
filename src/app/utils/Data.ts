@@ -1,7 +1,6 @@
 export const fields = [
   { id: "1", name: "name", label: "Enter Name", type: "text" },
   { id: "2", name: "age", label: "Enter Age", type: "number" },
-  // { name: "country", label: "Enter Country", type: "text" },
 ];
 
 export const autoCompleteFields = [

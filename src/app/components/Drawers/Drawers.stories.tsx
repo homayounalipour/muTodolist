@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Meta, StoryObj } from "@storybook/react";
-import { DrawerProps, Drawers } from "@/app/components/Drawers";
+import { DrawerProps, Drawers } from "@/app/components/Drawers/Drawers";
 import { ErrorProps } from "@/app/page";
 
 const meta: Meta<typeof Drawers> = {

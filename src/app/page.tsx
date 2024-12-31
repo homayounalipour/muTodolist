@@ -1,10 +1,9 @@
 "use client";
 import React, { useCallback, useMemo, useState } from "react";
 import { Box } from "@mui/material";
-import { Headers } from "@/app/components/Headers";
-import { Drawers } from "@/app/components/Drawers";
-import { DataGridPros } from "@/app/components/DataGrid";
-import { ViewDialog } from "@/app/components/ViewDialog";
+import { Headers } from "@/app/components/Header/Headers";
+import { Drawers } from "@/app/components/Drawers/Drawers";
+import { DataGridPros } from "@/app/components/DataGrid/DataGrid";
 
 export type UserProps = {
   name: string;
@@ -47,6 +46,7 @@ export default function Home() {
     setSelectedCountry(null);
     setFavoriteGenres([]);
     setIsTryCatch(false);
+    setIsViewOpen(false);
   };
   const updateField = (field: string, value: string) => {
     setFormValues((prev) => ({
@@ -150,6 +150,12 @@ export default function Home() {
     }
   };
   const memoizedRows = useMemo(() => users, [users]);
+  const viewUsersGenres = useMemo(() => {
+    return viewUser?.favoriteGenres.map((genre) => ({
+      value: genre,
+      title: genre,
+    }));
+  }, [viewUser?.favoriteGenres]);
   return (
     <Box>
       <Headers
@@ -173,6 +179,25 @@ export default function Home() {
           clearError={clearError}
           isTryCatch={isTryCatch}
           setIsTryCatch={setIsTryCatch}
+        />
+      ) : isViewOpen ? (
+        <Drawers
+          open={isViewOpen}
+          onClose={onCloseDrawer}
+          formValues={{
+            age: viewUser?.age as string,
+            name: viewUser?.name as string,
+          }}
+          favoriteGenres={viewUsersGenres || []}
+          selectedCountry={{
+            value: viewUser?.country as string,
+            title: viewUser?.country as string,
+          }}
+          titleButton="close"
+          addBnClick={handleCloseView}
+          isTryCatch={viewUser?.isTryCatch as boolean}
+          disabled={isViewOpen}
+          error={error}
         />
       ) : (
         <Drawers
@@ -198,11 +223,11 @@ export default function Home() {
         handleEdit={handleEdit}
         handleView={handleView}
       />
-      <ViewDialog
-        handleCloseView={handleCloseView}
-        isViewOpen={isViewOpen}
-        viewUser={viewUser}
-      />
+      {/*<ViewDialog*/}
+      {/*  handleCloseView={handleCloseView}*/}
+      {/*  isViewOpen={isViewOpen}*/}
+      {/*  viewUser={viewUser}*/}
+      {/*/>*/}
     </Box>
   );
 }

@@ -5,10 +5,13 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "test": "vitest",
     "start": "next start",
     "lint": "next lint",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
+    "build-storybook": "storybook build",
+    "coverage": "vitest run --coverage",
+    "new-coverage": "yarn test --coverage && open coverage/lcov-report/index.html"
   },
   "dependencies": {
     "@emotion/react": "11",
@@ -16,6 +19,7 @@
     "@mui/icons-material": "^6.1.7",
     "@mui/material": "5.16.7",
     "@mui/x-data-grid-pro": "6.20.1",
+    "@vitest/coverage-v8": "^2.1.8",
     "next": "15.0.3",
     "react": "19.0.0-rc-66855b96-20241106",
     "react-dom": "19.0.0-rc-66855b96-20241106"
@@ -29,14 +33,19 @@
     "@storybook/nextjs": "^8.4.7",
     "@storybook/react": "^8.4.7",
     "@storybook/test": "^8.4.7",
+    "@testing-library/jest-dom": "^6.6.3",
+    "@testing-library/react": "^16.1.0",
+    "@testing-library/user-event": "^14.5.2",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
     "eslint": "^8",
     "eslint-config-next": "15.0.3",
     "eslint-plugin-storybook": "^0.11.1",
+    "jsdom": "^25.0.1",
     "prettier": "^3.3.3",
     "storybook": "^8.4.7",
-    "typescript": "^5"
+    "typescript": "^5",
+    "vitest": "^2.1.8"
   }
 }

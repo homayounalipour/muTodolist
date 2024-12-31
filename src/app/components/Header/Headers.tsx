@@ -3,12 +3,8 @@
 import React from "react";
 import { Box, Button, Typography } from "@mui/material";
 import { AddCircle } from "@mui/icons-material";
+import { HeadersProps } from "@/app/components/Header/Headers.types";
 
-export type HeadersProps = {
-  title: string;
-  titleButton: string;
-  onclick?: () => void;
-};
 export const Headers: React.FC<HeadersProps> = (props) => {
   const { title, titleButton, onclick } = props;
   return (

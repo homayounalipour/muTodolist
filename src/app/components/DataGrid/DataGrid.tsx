@@ -5,18 +5,12 @@ import {
   GridColDef,
   GridVisibilityOffIcon,
 } from "@mui/x-data-grid-pro";
-import { UserProps } from "@/app/page";
 import { IconButton } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/DeleteOutlined";
-import { FieldNames } from "@/app/components/Drawers";
+import { FieldNames } from "../Drawers/Drawers.types";
+import { DataGridProsProps } from "./DataGrid.types";
 
-export type DataGridProsProps = {
-  rows: UserProps[];
-  handleEdit: (row: UserProps) => void;
-  handleDelete: (row: UserProps) => void;
-  handleView: (row: UserProps) => void;
-};
 export const DataGridPros: React.FC<DataGridProsProps> = (props) => {
   const { rows, handleView, handleEdit, handleDelete } = props;
   const columns: GridColDef[] = [
@@ -91,11 +85,13 @@ export const DataGridPros: React.FC<DataGridProsProps> = (props) => {
         rows={rows.map((row) => ({
           ...row,
         }))}
+        aria-label="DataGrid for testing"
         columns={memoizedColumns}
         rowHeight={38}
         checkboxSelection
         disableRowSelectionOnClick
         autoPageSize
+        disableVirtualization
       />
     </Box>
   );
