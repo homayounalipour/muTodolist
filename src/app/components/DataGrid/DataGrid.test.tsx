@@ -2,7 +2,7 @@ import React from "react";
 import { describe, it, vi, expect } from "vitest";
 import { fireEvent, render, screen } from "@testing-library/react";
 import { DataGridPros } from "./DataGrid";
-import { UserProps } from "@/app/page";
+import { UserProps } from "../UserManagement";
 
 const mockRows: UserProps[] = [
   {
@@ -58,7 +58,7 @@ describe("DataGridPros", () => {
 
   it("calls handleEdit when edit button is clicked", () => {
     const mockHandleEdit = vi.fn();
-    render(
+    const { getAllByTitle } = render(
       <DataGridPros
         rows={mockRows}
         handleView={vi.fn()}
@@ -67,14 +67,15 @@ describe("DataGridPros", () => {
       />,
     );
 
-    const editButton = screen.getAllByTitle("Edit")[0];
+    const editButton = getAllByTitle("Edit")[0];
     fireEvent.click(editButton);
     expect(mockHandleEdit).toHaveBeenCalledWith(mockRows[0]);
   });
 
   it("calls handleDelete when delete button is clicked", () => {
     const mockHandleDelete = vi.fn();
-    render(
+
+    const { getAllByTitle } = render(
       <DataGridPros
         rows={mockRows}
         handleView={vi.fn()}
@@ -83,14 +84,14 @@ describe("DataGridPros", () => {
       />,
     );
 
-    const deleteButton = screen.getAllByTitle("Delete")[0];
+    const deleteButton = getAllByTitle("Delete")[0];
     fireEvent.click(deleteButton);
     expect(mockHandleDelete).toHaveBeenCalledWith(mockRows[0]);
   });
 
   it("calls handleView when view button is clicked", () => {
     const mockHandleView = vi.fn();
-    render(
+    const { getAllByTitle } = render(
       <DataGridPros
         rows={mockRows}
         handleView={mockHandleView}
@@ -99,13 +100,13 @@ describe("DataGridPros", () => {
       />,
     );
 
-    const viewButton = screen.getAllByTitle("View")[0];
+    const viewButton = getAllByTitle("View")[0];
     fireEvent.click(viewButton);
     expect(mockHandleView).toHaveBeenCalledWith(mockRows[0]);
   });
 
   it("renders correct icon for isTryCatch column", () => {
-    render(
+    const { getByText } = render(
       <DataGridPros
         rows={mockRows}
         handleView={vi.fn()}
@@ -114,7 +115,7 @@ describe("DataGridPros", () => {
       />,
     );
 
-    expect(screen.getByText("✅")).toBeInTheDocument();
-    expect(screen.getByText("❌")).toBeInTheDocument();
+    expect(getByText("✅")).toBeInTheDocument();
+    expect(getByText("❌")).toBeInTheDocument();
   });
 });

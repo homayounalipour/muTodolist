@@ -1,6 +1,6 @@
 import React from "react";
 import { describe, expect, it, vi } from "vitest";
-import { fireEvent, render, screen } from "@testing-library/react";
+import { fireEvent, render } from "@testing-library/react";
 import { Headers } from "./Headers";
 
 describe("title in document", () => {
@@ -10,26 +10,26 @@ describe("title in document", () => {
     onclick: vi.fn(),
   };
   it("should have the correct title", () => {
-    render(<Headers {...mockStateProps} />);
-    const titleElement = screen.getByText(mockStateProps.title);
+    const { getByText } = render(<Headers {...mockStateProps} />);
+    const titleElement = getByText(mockStateProps.title);
     expect(titleElement).toBeInTheDocument();
   });
 
   it("should have the correct title button", () => {
-    render(<Headers {...mockStateProps} />);
-    const titleButtonElement = screen.getByText(mockStateProps.titleButton);
+    const { getByText } = render(<Headers {...mockStateProps} />);
+    const titleButtonElement = getByText(mockStateProps.titleButton);
     expect(titleButtonElement).toBeInTheDocument();
   });
   it("should call the onclick function when the title button is clicked", () => {
-    render(<Headers {...mockStateProps} />);
-    const titleButtonElement = screen.getByText(mockStateProps.titleButton);
+    const { getByText } = render(<Headers {...mockStateProps} />);
+    const titleButtonElement = getByText(mockStateProps.titleButton);
     fireEvent.click(titleButtonElement);
     expect(mockStateProps.onclick).toBeCalledTimes(1);
   });
   it("should have correct style ", () => {
-    render(<Headers {...mockStateProps} />);
-    const boxElement = screen.getByText(mockStateProps.title).parentElement;
-    const buttonElement = screen.getByText(mockStateProps.titleButton);
+    const { getByText } = render(<Headers {...mockStateProps} />);
+    const boxElement = getByText(mockStateProps.title).parentElement;
+    const buttonElement = getByText(mockStateProps.titleButton);
     expect(buttonElement).toHaveStyle({
       textTransform: "capitalize",
     });

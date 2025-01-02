@@ -1,5 +1,5 @@
 import React from "react";
-import { ErrorProps } from "@/app/page";
+import { ErrorProps } from "@/app/components/UserManagement";
 
 export type DrawerProps = {
   open?: boolean;

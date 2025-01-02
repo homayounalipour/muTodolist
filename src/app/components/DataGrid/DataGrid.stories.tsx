@@ -1,11 +1,9 @@
 import { Meta, StoryObj } from "@storybook/react";
-import {
-  DataGridPros,
-  DataGridProsProps,
-} from "@/app/components/DataGrid/DataGrid";
+import { DataGridPros } from "@/app/components/DataGrid/DataGrid";
 
-import { UserProps } from "@/app/page";
 import { action } from "@storybook/addon-actions";
+import { DataGridProsProps } from "./DataGrid.types";
+import { UserProps } from "../UserManagement";
 
 const meta: Meta<typeof DataGridPros> = {
   title: "Components/DataGridPros",

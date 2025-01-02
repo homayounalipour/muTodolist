@@ -1,6 +1,6 @@
 import React from "react";
 import { describe, expect, it, vi } from "vitest";
-import { fireEvent, render, screen } from "@testing-library/react";
+import { fireEvent, render } from "@testing-library/react";
 import { Drawers } from "./Drawers";
 import { FieldNames } from "./Drawers.types";
 
@@ -26,32 +26,34 @@ describe("Drawers Component", () => {
     disabled: false,
   };
   it("should renders the drawer when open", () => {
-    render(<Drawers {...mockStateProps} />);
-    const button = screen.getByText(mockStateProps.titleButton);
+    const { getByText } = render(<Drawers {...mockStateProps} />);
+    const button = getByText(mockStateProps.titleButton);
     expect(button).toBeInTheDocument();
   });
   it("calls onClose when the drawer is closed", () => {
-    render(<Drawers {...mockStateProps} />);
-    const drawerElement = screen.getByRole("presentation");
+    const { getByRole } = render(<Drawers {...mockStateProps} />);
+
+    const drawerElement = getByRole("presentation");
     fireEvent.keyDown(drawerElement, { key: "Escape" });
     expect(mockStateProps.onClose).toHaveBeenCalled();
   });
 
   it("updates the form field values on change", () => {
-    render(<Drawers {...mockStateProps} />);
-    const nameInput = screen.getByLabelText(/Name/i);
+    const { getByLabelText } = render(<Drawers {...mockStateProps} />);
+
+    const nameInput = getByLabelText(/Name/i);
     fireEvent.change(nameInput, { target: { value: "John Doe" } });
     expect(mockStateProps.updateField).toHaveBeenCalledWith("name", "John Doe");
   });
   it("handles favorite genres selection", () => {
-    render(<Drawers {...mockStateProps} />);
+    const { getByText, getByRole } = render(<Drawers {...mockStateProps} />);
 
-    const genreInput = screen.getByRole("combobox", {
+    const genreInput = getByRole("combobox", {
       name: /Favorite Genres/i,
     });
     fireEvent.mouseDown(genreInput);
 
-    const option = screen.getByText(/Action/i);
+    const option = getByText(/Action/i);
     fireEvent.click(option);
 
     expect(mockStateProps.setFavoriteGenres).toHaveBeenCalledWith([
@@ -63,25 +65,25 @@ describe("Drawers Component", () => {
   });
 
   it("handles country selection", () => {
-    render(<Drawers {...mockStateProps} />);
-    const countryInput = screen.getByRole("combobox", {
+    const { getByRole, getByText } = render(<Drawers {...mockStateProps} />);
+    const countryInput = getByRole("combobox", {
       name: /Country/i,
     });
     fireEvent.mouseDown(countryInput);
-    const option = screen.getByText(/United Kingdom/i);
+    const option = getByText(/United Kingdom/i);
     fireEvent.click(option);
     expect(mockStateProps.setSelectedCountry).toHaveBeenCalled();
   });
   it("handles checkbox state change", () => {
-    render(<Drawers {...mockStateProps} />);
-    const checkbox = screen.getByLabelText(/IsTryCatch/i);
+    const { getByLabelText } = render(<Drawers {...mockStateProps} />);
+    const checkbox = getByLabelText(/IsTryCatch/i);
     fireEvent.click(checkbox);
     expect(mockStateProps.setIsTryCatch).toHaveBeenCalledWith(true);
   });
 
   it("calls addBnClick when the button is clicked", () => {
-    render(<Drawers {...mockStateProps} />);
-    const button = screen.getByText(mockStateProps.titleButton);
+    const { getByText } = render(<Drawers {...mockStateProps} />);
+    const button = getByText(mockStateProps.titleButton);
     fireEvent.click(button);
     expect(mockStateProps.addBnClick).toHaveBeenCalled();
   });
@@ -96,14 +98,16 @@ describe("Drawers Component", () => {
       clearError: mockClearError,
     };
 
-    render(<Drawers {...mockPropsWithDependencies} />);
+    const { getByRole, getByText } = render(
+      <Drawers {...mockPropsWithDependencies} />,
+    );
 
-    const genreInput = screen.getByRole("combobox", {
+    const genreInput = getByRole("combobox", {
       name: /Favorite Genres/i,
     });
     fireEvent.mouseDown(genreInput);
 
-    const option = screen.getByText(/Action/i);
+    const option = getByText(/Action/i);
     fireEvent.click(option);
 
     expect(mockSetFavoriteGenres).toHaveBeenCalledWith([
@@ -122,14 +126,16 @@ describe("Drawers Component", () => {
       clearError: mockClearError,
     };
 
-    render(<Drawers {...mockPropsWithoutSetFavoriteGenres} />);
+    const { getByRole, getByText } = render(
+      <Drawers {...mockPropsWithoutSetFavoriteGenres} />,
+    );
 
-    const genreInput = screen.getByRole("combobox", {
+    const genreInput = getByRole("combobox", {
       name: /Favorite Genres/i,
     });
     fireEvent.mouseDown(genreInput);
 
-    const option = screen.getByText(/Action/i);
+    const option = getByText(/Action/i);
     fireEvent.click(option);
 
     expect(mockClearError).toHaveBeenCalledWith(FieldNames.FavoriteGenres);
@@ -146,14 +152,16 @@ describe("Drawers Component", () => {
       clearError: undefined,
     };
 
-    render(<Drawers {...mockPropsWithoutClearError} />);
+    const { getByRole, getByText } = render(
+      <Drawers {...mockPropsWithoutClearError} />,
+    );
 
-    const genreInput = screen.getByRole("combobox", {
+    const genreInput = getByRole("combobox", {
       name: /Favorite Genres/i,
     });
     fireEvent.mouseDown(genreInput);
 
-    const option = screen.getByText(/Action/i);
+    const option = getByText(/Action/i);
     fireEvent.click(option);
 
     expect(mockSetFavoriteGenres).toHaveBeenCalledWith([
@@ -170,14 +178,16 @@ describe("Drawers Component", () => {
       clearError: undefined,
     };
 
-    render(<Drawers {...mockPropsWithoutHandlers} />);
+    const { getByRole, getByText } = render(
+      <Drawers {...mockPropsWithoutHandlers} />,
+    );
 
-    const genreInput = screen.getByRole("combobox", {
+    const genreInput = getByRole("combobox", {
       name: /Favorite Genres/i,
     });
     fireEvent.mouseDown(genreInput);
 
-    const option = screen.getByText("Action");
+    const option = getByText("Action");
     fireEvent.click(option);
 
     expect(mockPropsWithoutHandlers.setFavoriteGenres).toBeUndefined();

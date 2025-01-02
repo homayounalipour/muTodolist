@@ -10,8 +10,8 @@ import {
   TextField,
 } from "@mui/material";
 import { autoCompleteFields, fields } from "../../utils/Data";
-import { ErrorProps } from "@/app/page";
 import { DrawerProps, FieldNames } from "./Drawers.types";
+import { ErrorProps } from "@/app/components/UserManagement";
 
 export const Drawers: React.FC<DrawerProps> = (props) => {
   const {
@@ -181,7 +181,7 @@ export const Drawers: React.FC<DrawerProps> = (props) => {
     [formValues, favoriteGenres, selectedCountry, error, isTryCatch],
   );
   return (
-    <Drawer open={open} onClose={onClose} anchor="right">
+    <Drawer open={open} onClose={onClose} anchor="right" data-testid="drawer">
       {DrawerDetailMemo}
     </Drawer>
   );
